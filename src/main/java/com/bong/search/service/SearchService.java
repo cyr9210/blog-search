@@ -1,9 +1,9 @@
 package com.bong.search.service;
 
-import com.bong.blog.dto.BlogDto;
-import java.util.List;
+import com.bong.search.dto.BlogSearchResponse;
 
 public interface SearchService {
 
-    List<BlogDto> findBlogsByKeyword(String keyword);
+    BlogSearchResponse findBlogsByKeyword(int page, int size, String sort, String keyword);
+
 }
