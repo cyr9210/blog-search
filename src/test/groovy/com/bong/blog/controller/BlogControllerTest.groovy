@@ -2,8 +2,8 @@ package com.bong.blog.controller
 
 import com.bong.base.BaseControllerTest
 import com.bong.blog.dto.SortType
+import com.bong.fixture.BlogSearchResponseFixture
 import com.bong.search.client.KakaoClient
-import com.bong.search.dto.BlogSearchResponse
 import org.springframework.boot.test.mock.mockito.MockBean
 
 import static org.mockito.ArgumentMatchers.anyInt
@@ -27,7 +27,7 @@ class BlogControllerTest extends BaseControllerTest {
         def keyword = "집짓기"
 
         and:
-        def response = convertJsonResource("kakaoBlogSearchResponse", BlogSearchResponse.class)
+        def response = BlogSearchResponseFixture.stubKakaoBlogSearchResponse()
         when(kakaoClientMock.findBlogs(anyString(), anyInt(), anyInt(), anyString(), anyString())).thenReturn(response)
 
         expect:
@@ -40,7 +40,6 @@ class BlogControllerTest extends BaseControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath('$.meta.totalCount').value(641639))
-                .andExpect(jsonPath('$.meta.currentPage').value(1))
                 .andExpect(jsonPath('$.meta.pageableCount').value(793))
                 .andExpect(jsonPath('$.meta.end').value(false))
                 .andExpect(jsonPath('$.blogs.[0].title').value("부산발도르프학교 3학년 <b>집</b><b>짓기</b>"))

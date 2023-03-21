@@ -1,38 +1,34 @@
 package com.bong.blog.service;
 
-import com.bong.blog.dto.BlogDto;
-import com.bong.blog.dto.BlogPageResponse;
 import com.bong.blog.dto.PageInfo;
-import com.bong.blog.dto.PageResponseMeta;
 import com.bong.blog.event.BlogSearchEvent;
-import com.bong.search.dto.BlogSearchResponse;
-import com.bong.search.service.ExternalBlogSearchService;
-import com.bong.search.service.SearchService;
+import com.bong.search.dto.BlogPageResponse;
+import com.bong.search.service.ServiceType;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 public class BlogService {
 
-    private final SearchService searchService;
-
+    private final SearchServiceDelegator searchServiceDelegator;
     private final ApplicationEventPublisher publisher;
 
-    public BlogService(ExternalBlogSearchService searchService, ApplicationEventPublisher publisher) {
-        this.searchService = searchService;
+    public BlogService(SearchServiceDelegator searchServiceDelegator, ApplicationEventPublisher publisher) {
+        this.searchServiceDelegator = searchServiceDelegator;
         this.publisher = publisher;
     }
 
     public BlogPageResponse findByKeyword(PageInfo pageInfo, String keyword) {
-        BlogSearchResponse response = searchService.findBlogsByKeyword(pageInfo.getPage(), pageInfo.getSize(),
-                pageInfo.getSort().getSortString(), keyword);
-        BlogSearchResponse.Meta meta = response.getMeta();
-        PageResponseMeta pageMeta = new PageResponseMeta(meta.getTotalCount(), pageInfo.getPage(), meta.getPageableCount(), meta.isEnd());
-        List<BlogDto> blogs = response.getDocuments().stream().map(BlogDto::new).collect(Collectors.toList());
+        BlogPageResponse response = Arrays.stream(ServiceType.values())
+                .map(serviceType -> searchServiceDelegator.findBlogsByKeyword(serviceType, pageInfo, keyword))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findFirst().orElseThrow(() -> new RuntimeException("can not find."));
+
         publisher.publishEvent(new BlogSearchEvent(keyword));
-        return new BlogPageResponse(pageMeta, blogs);
+        return response;
     }
 }

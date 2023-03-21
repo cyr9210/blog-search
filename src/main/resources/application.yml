@@ -11,3 +11,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+feign:
+  client:
+    config:
+      default:
+        read-timeout:
+          loggerLevel: BASIC
+          connectTimeout: 2000
+          readTimeout: 2000

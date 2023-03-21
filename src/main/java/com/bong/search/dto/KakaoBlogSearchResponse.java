@@ -8,7 +8,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @Getter
-public class BlogSearchResponse {
+public class KakaoBlogSearchResponse {
 
     private Meta meta;
     private List<Document> documents;
@@ -37,5 +37,4 @@ public class BlogSearchResponse {
         @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
         private OffsetDateTime datetime;
     }
-
 }

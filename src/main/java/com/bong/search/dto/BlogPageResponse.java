@@ -1,4 +1,4 @@
-package com.bong.blog.dto;
+package com.bong.search.dto;
 
 import lombok.Getter;
 
@@ -14,4 +14,5 @@ public class BlogPageResponse {
         this.meta = meta;
         this.blogs = blogs;
     }
+
 }
