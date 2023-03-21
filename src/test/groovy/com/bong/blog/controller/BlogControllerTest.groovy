@@ -1,5 +1,6 @@
 package com.bong.blog.controller
 
+import com.bong.base.BaseControllerTest
 import com.bong.blog.dto.SortType
 import com.bong.search.client.KakaoClient
 import com.bong.search.dto.BlogSearchResponse

@@ -1,3 +1,13 @@
 spring:
+  h2:
+    console:
+      enabled: true
   profiles:
     include: secret
+  datasource:
+    driver-class-name: org.h2.Driver
+    hikari:
+      jdbc-url: jdbc:h2:mem:blog;MODE=MySQL;DATABASE_TO_LOWER=TRUE
+  jpa:
+    hibernate:
+      ddl-auto: validate

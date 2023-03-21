@@ -3,8 +3,10 @@ package com.bong.blog.service
 
 import com.bong.blog.dto.PageInfo
 import com.bong.blog.dto.SortType
+import com.bong.blog.event.BlogSearchEvent
 import com.bong.search.dto.BlogSearchResponse
 import com.bong.search.service.ExternalBlogSearchService
+import org.springframework.context.ApplicationEventPublisher
 import spock.lang.Specification
 
 import java.time.OffsetDateTime
@@ -13,9 +15,10 @@ class BlogServiceTest extends Specification {
 
     private BlogService sut
     private ExternalBlogSearchService externalBlogSearchServiceMock = Mock()
+    private ApplicationEventPublisher publisherMock = Mock()
 
     def setup() {
-        sut = new BlogService(externalBlogSearchServiceMock)
+        sut = new BlogService(externalBlogSearchServiceMock, publisherMock)
     }
 
     def "검색어로 블로그 목록을 조회한다."() {
@@ -44,7 +47,7 @@ class BlogServiceTest extends Specification {
             }
             it.documents >> [document]
         }
-
+        1 * publisherMock.publishEvent(_ as BlogSearchEvent)
         with(result) {
             it.meta.totalCount == 1
             it.meta.pageableCount == 1
