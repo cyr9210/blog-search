@@ -9,6 +9,10 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
+@Table(indexes = {
+        @Index(name = "uk_keyword", columnList = "keyword", unique = true),
+        @Index(name = "idx_count", columnList = "count")
+})
 public class KeywordHistory extends BaseEntity {
 
     @Id
