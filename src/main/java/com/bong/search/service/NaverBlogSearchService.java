@@ -5,11 +5,15 @@ import com.bong.search.dto.BlogDto;
 import com.bong.search.dto.BlogPageResponse;
 import com.bong.search.dto.NaverBlogSearchResponse;
 import com.bong.search.dto.PageResponseMeta;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.bong.search.exception.ClientErrorException;
+import com.bong.search.exception.ClientNotCallableException;
+import com.bong.search.exception.GeneralClientException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -43,8 +47,8 @@ public class NaverBlogSearchService implements SearchService {
             PageResponseMeta meta = getMeta(response.getTotal(), size, start);
             List<BlogDto> blogs = response.getItems().stream().map(BlogDto::new).collect(Collectors.toList());
             return new BlogPageResponse(meta, blogs);
-        } catch (Exception e) {
-            throw new RuntimeException("naver api can not available.", e);
+        } catch (ClientErrorException | GeneralClientException e) {
+            throw new ClientNotCallableException("naver api can not available.", e);
         }
     }
 

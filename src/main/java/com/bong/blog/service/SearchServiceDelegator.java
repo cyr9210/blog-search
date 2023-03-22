@@ -2,6 +2,7 @@ package com.bong.blog.service;
 
 import com.bong.blog.dto.PageInfo;
 import com.bong.search.dto.BlogPageResponse;
+import com.bong.search.exception.ClientNotCallableException;
 import com.bong.search.service.SearchService;
 import com.bong.search.service.ServiceType;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class SearchServiceDelegator {
     public Optional<BlogPageResponse> findBlogsByKeyword(ServiceType serviceType, PageInfo pageInfo, String keyword) {
         try {
             return find(serviceType, pageInfo, keyword);
-        } catch (Exception e) {
+        } catch (ClientNotCallableException e) {
             return Optional.empty();
         }
 

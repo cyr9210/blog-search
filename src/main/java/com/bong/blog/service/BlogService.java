@@ -2,6 +2,7 @@ package com.bong.blog.service;
 
 import com.bong.blog.dto.PageInfo;
 import com.bong.blog.event.BlogSearchEvent;
+import com.bong.blog.exception.NotSearchableException;
 import com.bong.search.dto.BlogPageResponse;
 import com.bong.search.service.ServiceType;
 import org.springframework.context.ApplicationEventPublisher;
@@ -26,7 +27,7 @@ public class BlogService {
                 .map(serviceType -> searchServiceDelegator.findBlogsByKeyword(serviceType, pageInfo, keyword))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .findFirst().orElseThrow(() -> new RuntimeException("can not find."));
+                .findFirst().orElseThrow(NotSearchableException::new);
 
         publisher.publishEvent(new BlogSearchEvent(keyword));
         return response;
