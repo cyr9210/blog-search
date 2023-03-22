@@ -11,11 +11,15 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-feign:
+    properties:
+      javax:
+        persistence:
+          lock:
+            timeout=5000:feign:
   client:
     config:
       default:
         read-timeout:
           loggerLevel: BASIC
-          connectTimeout: 2000
-          readTimeout: 2000
+          connectTimeout: 5000
+          readTimeout: 5000

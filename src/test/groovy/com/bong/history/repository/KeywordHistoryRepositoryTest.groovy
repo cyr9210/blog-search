@@ -50,4 +50,5 @@ class KeywordHistoryRepositoryTest extends Specification {
         top10.size() == 10
         top10.id == [111, 110, 109, 108, 107, 106, 105, 101, 104, 103]
     }
+
 }

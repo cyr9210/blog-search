@@ -5,24 +5,19 @@ import com.bong.search.dto.BlogDto;
 import com.bong.search.dto.BlogPageResponse;
 import com.bong.search.dto.NaverBlogSearchResponse;
 import com.bong.search.dto.PageResponseMeta;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class NaverBlogSearchService implements SearchService {
 
     private final ServiceType serviceType;
-
     private final String clientId;
-
-
     private final String clientSecret;
-
     private final NaverClient naverClient;
 
     public NaverBlogSearchService(@Value("${api-key.naver.id}") String clientId,
