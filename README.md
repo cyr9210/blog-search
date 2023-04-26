@@ -54,19 +54,26 @@
 - [ ] 다운로드 링크 제공
 
 ## 도메인설계
-```plantuml
-@startuml
-class Stock {
-  + id: Long
-  + name: String
-  + code: String
-  + price: Long
-  + changePrice: Long
-  + changeRate: Double
-  + volume: Long
-  + transaction: Long
-  + createdAt: LocalDateTime
-  + updatedAt: LocalDateTime
-}
-@enduml
+```mermaid
+classDiagram
+    Animal <|-- Duck
+    Animal <|-- Fish
+    Animal <|-- Zebra
+    Animal : +int age
+    Animal : +String gender
+    Animal: +isMammal()
+    Animal: +mate()
+    class Duck{
+        +String beakColor
+        +swim()
+        +quack()
+    }
+    class Fish{
+        -int sizeInFeet
+        -canEat()
+    }
+    class Zebra{
+        +bool is_wild
+        +run()
+    }
 ```
