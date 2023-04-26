@@ -52,3 +52,21 @@
 - [x] 동시성 제어
 - [x] 예외처리
 - [ ] 다운로드 링크 제공
+
+## 도메인설계
+```plantuml
+@startuml
+class Stock {
+  + id: Long
+  + name: String
+  + code: String
+  + price: Long
+  + changePrice: Long
+  + changeRate: Double
+  + volume: Long
+  + transaction: Long
+  + createdAt: LocalDateTime
+  + updatedAt: LocalDateTime
+}
+@enduml
+```
